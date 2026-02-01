@@ -1,11 +1,11 @@
 # Laravel TypeScript
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/BasedCollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/BasedCollective/laravel-typescript)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/BasedCollective/laravel-typescript/run-tests.yml?label=tests&branch=main)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/basedcollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/basedcollective/laravel-typescript)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/basedcollective/laravel-typescript/run-tests.yml?label=tests&branch=main)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/basedcollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/basedcollective/laravel-typescript)
 
 > [!NOTE]  
-> This is an up-to-date maintained fork of the abandoned [laravel-typescript](https://github.com/lepikhinb/laravel-typescript) package.
+> This is an up-to-date, maintained fork of the abandoned [laravel-typescript](https://github.com/lepikhinb/laravel-typescript) package.
 
 The package lets you generate TypeScript interfaces from your Laravel models.
 
