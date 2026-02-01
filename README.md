@@ -1,13 +1,74 @@
 # Laravel TypeScript
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/BasedCollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/BasedCollective/laravel-typescript)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/BasedCollective/laravel-typescript/run-tests?label=tests)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/BasedCollective/laravel-typescript/run-tests.yml?label=tests&branch=main)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/basedcollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/basedcollective/laravel-typescript)
+
+> [!NOTE]  
+> This is an up-to-date maintained fork of the abandoned [laravel-typescript](https://github.com/lepikhinb/laravel-typescript) package.
 
 The package lets you generate TypeScript interfaces from your Laravel models.
 
+## Installation
+
+**Laravel 10+ and PHP 8.1 are required.**
+
+You can install the package via composer:
+
+```bash
+composer require basedcollective/laravel-typescript
+```
+
+## Usage
+
+Generate TypeScript interfaces:
+
+```bash
+php artisan typescript:generate
+```
+
+Example usage with Vue 3:
+
+```vue
+<script setup lang="ts">
+defineProps<{
+    product: App.Models.Product;
+}>();
+</script>
+
+<template>
+    <h1>{{ product.name }}</h1>
+    <p>Price: ${{ product.price }}</p>
+</template>
+```
+
+## Configuration
+
+Optionally, you can publish the config file:
+
+```bash
+php artisan vendor:publish --provider="Based\TypeScript\TypeScriptServiceProvider" --tag="typescript-config"
+```
+
+This is the contents of the published config file:
+
+```php
+return [
+    'generators' => [
+        Model::class => ModelGenerator::class,
+    ],
+
+    'output' => resource_path('js/models.d.ts'),
+
+    // load namespaces from composer's `dev-autoload`
+    'autoloadDev' => false,
+];
+```
+
 ## Introduction
+
 Say you have a model which has several properties (database columns) and multiple relations.
+
 ```php
 class Product extends Model
 {
@@ -47,57 +108,6 @@ declare namespace App.Models {
 - [x] Model accessors
 - [ ] Casted attributes
 
-## Installation
-
-**Laravel 8 and PHP 8 are required.**
-You can install the package via composer:
-
-```bash
-composer require basedcollective/laravel-typescript
-```
-
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Based\TypeScript\TypeScriptServiceProvider" --tag="typescript-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    'generators' => [
-        Model::class => ModelGenerator::class,
-    ],
-
-    'output' => resource_path('js/models.d.ts'),
-
-    // load namespaces from composer's `dev-autoload`
-    'autoloadDev' => false,
-];
-
-```
-
-## Usage
-
-Generate TypeScript interfaces.
-```bash
-php artisan typescript:generate
-```
-
-Example usage with Vue 3:
-```typescript
-import { defineComponent, PropType } from "vue";
-
-export default defineComponent({
-    props: {
-        product: {
-            type: Object as PropType<App.Models.Product>,
-            required: true,
-        },
-    },
-}
-```
-
 ## Testing
 
 ```bash
@@ -106,7 +116,8 @@ composer test
 
 ## Credits
 
-- [Boris Lepikhin](https://github.com/lepikhinb)
+- [Ostap Brehin](https://github.com/osbre)
+- [Boris Lepikhin](https://github.com/lepikhinb) (original author)
 - [All Contributors](../../contributors)
 
 ## License
