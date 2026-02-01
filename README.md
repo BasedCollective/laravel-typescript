@@ -1,8 +1,8 @@
 # Laravel TypeScript
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/based/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/based/laravel-typescript)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/lepikhinb/laravel-typescript/run-tests?label=tests)](https://github.com/lepikhinb/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/based/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/based/laravel-typescript)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/BasedCollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/BasedCollective/laravel-typescript)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/BasedCollective/laravel-typescript/run-tests?label=tests)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/basedcollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/basedcollective/laravel-typescript)
 
 The package lets you generate TypeScript interfaces from your Laravel models.
 
@@ -53,7 +53,7 @@ declare namespace App.Models {
 You can install the package via composer:
 
 ```bash
-composer require based/laravel-typescript
+composer require basedcollective/laravel-typescript
 ```
 
 You can publish the config file with:

@@ -1,11 +1,11 @@
 {
-    "name": "based/laravel-typescript",
+    "name": "basedcollective/laravel-typescript",
     "description": "Transform Laravel models into TypeScript interfaces",
     "keywords": [
         "laravel",
         "typescript"
     ],
-    "homepage": "https://github.com/lepikhinb/laravel-typescript",
+    "homepage": "https://github.com/BasedCollective/laravel-typescript",
     "license": "MIT",
     "authors": [
         {
