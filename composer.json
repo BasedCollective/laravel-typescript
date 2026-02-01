@@ -9,9 +9,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Boris Lepikhin",
-            "email": "boris@lepikhin.com",
-            "role": "Developer"
+            "name": "Ostap Brehin",
+            "email": "osbre@protonmail.com",
+            "role": "Maintainer"
         }
     ],
     "require": {
