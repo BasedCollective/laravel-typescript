@@ -25,7 +25,7 @@ class TypeScriptProperty
 
     public function __toString(): string
     {
-        return collect($this->name)
+        return collect([$this->name])
             ->when($this->readonly, fn(Collection $definition) => $definition->prepend('readonly '))
             ->when($this->optional, fn(Collection $definition) => $definition->push('?'))
             ->push(': ')

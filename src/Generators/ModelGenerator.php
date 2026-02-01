@@ -150,7 +150,7 @@ class ModelGenerator extends AbstractGenerator
     {
         return collect($this->reflection->getMethods(ReflectionMethod::IS_PUBLIC))
             ->reject(fn (ReflectionMethod $method) => $method->isStatic())
-            ->reject(fn (ReflectionMethod $method) => $method->getNumberOfParameters());
+            ->reject(fn (ReflectionMethod $method) => $method->getNumberOfParameters() > 0);
     }
 
     protected function getPropertyType(string $type): string|array

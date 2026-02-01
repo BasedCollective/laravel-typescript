@@ -70,16 +70,14 @@ class RequestGenerator extends AbstractGenerator
         $method = $clazz->getMethod('getValidatorInstance');
         $method->setAccessible(true);
 
-        /** @var \Illuminate\Validation\Validator $validator */
         $this->validator = $method->invoke($this->request);
 
         $this->customRules = config('typescript.customRules');
     }
 
     /**
-     * @param array|string $rules
-     * @param string $property
-     * @return string[]|null
+     * @param array<mixed>|string $rules
+     * @return array<string, array<string, mixed>>|null
      */
     private function parseRules(string $property, array|string $rules): ?array
     {
@@ -166,12 +164,11 @@ class RequestGenerator extends AbstractGenerator
 
     private function parseRuleString(string $property, string $rule): Collection
     {
-        return collect(explode(':', $rule, 2))
-            ->mapWithKeys(
-                fn (string $args, int|string $key) => is_int($key)
-                    ? [$this->parseRuleName($property, $args) => null]
-                    : [$this->parseRuleName($property, $key, $args) => $args]
-            );
+        $parts = explode(':', $rule, 2);
+        $ruleName = $parts[0];
+        $args = $parts[1] ?? null;
+
+        return collect([$this->parseRuleName($property, $ruleName, $args) => $args]);
     }
 
     private function parseRuleName(string $property, string $rule, ?string $args = null): ?string
@@ -190,13 +187,13 @@ class RequestGenerator extends AbstractGenerator
 
     private function resolveColumn(string $property, ?string $args): ?string
     {
-        $args = explode(',', $args);
-        if (count($args) === 0) {
+        if ($args === null || $args === '') {
             return null;
         }
 
-        $table = $args[0];
-        $columnName = Arr::get($args, 1) ?? $property;
+        $parts = explode(',', $args);
+        $table = $parts[0];
+        $columnName = $parts[1] ?? $property;
 
         /** @var \Illuminate\Database\Connection $connection */
         $connection = DB::connection();

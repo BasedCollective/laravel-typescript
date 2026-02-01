@@ -3,10 +3,11 @@
 namespace Based\TypeScript\Tests;
 
 use Based\TypeScript\TypeScriptGenerator;
+use PHPUnit\Framework\Attributes\Test;
 
 class GeneratorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_works()
     {
         $output = @tempnam('/tmp', 'models.d.ts');
