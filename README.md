@@ -1,7 +1,7 @@
 # Laravel TypeScript
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/BasedCollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/BasedCollective/laravel-typescript)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/BasedCollective/laravel-typescript/run-tests?label=tests)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/BasedCollective/laravel-typescript/run-tests?label=tests)](https://github.com/BasedCollective/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/basedcollective/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/basedcollective/laravel-typescript)
 
 The package lets you generate TypeScript interfaces from your Laravel models.
