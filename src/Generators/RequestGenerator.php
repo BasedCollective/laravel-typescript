@@ -4,8 +4,6 @@ namespace Based\TypeScript\Generators;
 
 use Based\TypeScript\Definitions\TypeScriptProperty;
 use Based\TypeScript\Definitions\TypeScriptType;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Types\Types;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
@@ -15,7 +13,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\ClosureValidationRule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Validator;
-use JetBrains\PhpStorm\Pure;
 use Laravel\Fortify\Rules\Password as FortifyPassword;
 
 class RequestGenerator extends AbstractGenerator
@@ -148,9 +145,6 @@ class RequestGenerator extends AbstractGenerator
             ->all();
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function parseRuleObject(string $property, object $rule): Collection
     {
         if (method_exists($rule, '__toString')) {
@@ -170,9 +164,6 @@ class RequestGenerator extends AbstractGenerator
         );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function parseRuleString(string $property, string $rule): Collection
     {
         return collect(explode(':', $rule, 2))
@@ -183,10 +174,7 @@ class RequestGenerator extends AbstractGenerator
             );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    private function parseRuleName(string $property, string $rule, string $args = null): ?string
+    private function parseRuleName(string $property, string $rule, ?string $args = null): ?string
     {
         return match ($rule) {
             'nullable', 'sometimes', 'present', 'prohibited', 'required', 'same', 'confirmed' => $rule,
@@ -200,12 +188,6 @@ class RequestGenerator extends AbstractGenerator
         };
     }
 
-    /**
-     * @param string $property
-     * @param string|null $args
-     * @return string|null
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function resolveColumn(string $property, ?string $args): ?string
     {
         $args = explode(',', $args);
@@ -218,33 +200,39 @@ class RequestGenerator extends AbstractGenerator
 
         /** @var \Illuminate\Database\Connection $connection */
         $connection = DB::connection();
-
         $prefix = $connection->getTablePrefix();
 
         if (!Schema::hasTable("$prefix$table") || !Schema::hasColumn("$prefix$table", $columnName)) {
             return null;
         }
 
-        $schemaManager = $connection->getDoctrineSchemaManager();
-        $columns = collect($schemaManager->listTableColumns("$prefix$table"));
+        $columns = collect(Schema::getColumns("$prefix$table"));
+        $column = $columns->first(fn (array $col) => $col['name'] === $columnName);
 
-        /** @var Column $column */
-        $column = $columns->first(fn (Column $column) => $column->getName() === $columnName);
+        if (!$column) {
+            return null;
+        }
 
-        return $this->getColumnType($column->getType()->getName());
+        return $this->getColumnType($column['type_name']);
     }
 
-    #[Pure] protected function getColumnType(string $type): string|array
+    protected function getColumnType(string $type): string|array
     {
+        $type = strtolower($type);
+
         return match ($type) {
-            Types::ARRAY, Types::JSON, Types::SIMPLE_ARRAY => [TypeScriptType::array(), TypeScriptType::ANY],
-            Types::ASCII_STRING, Types::BINARY, Types::BLOB, Types::DATE_MUTABLE,
-            Types::DATE_IMMUTABLE, Types::DATEINTERVAL, Types::DATETIME_MUTABLE,
-            Types::DATETIME_IMMUTABLE, Types::DATETIMETZ_MUTABLE, Types::DATETIMETZ_IMMUTABLE,
-            Types::GUID, Types::STRING, Types::TEXT => TypeScriptType::STRING,
-            Types::BIGINT, Types::DECIMAL, Types::FLOAT, Types::INTEGER,
-            Types::SMALLINT, Types::TIME_MUTABLE, Types::TIME_IMMUTABLE => TypeScriptType::NUMBER,
-            Types::BOOLEAN => TypeScriptType::BOOLEAN,
+            // JSON/Array types
+            'json', 'jsonb', 'array', 'simple_array' => [TypeScriptType::array(), TypeScriptType::ANY],
+            // String types
+            'string', 'char', 'varchar', 'tinytext', 'text', 'mediumtext', 'longtext',
+            'binary', 'varbinary', 'blob', 'tinyblob', 'mediumblob', 'longblob', 'bytea',
+            'date', 'datetime', 'datetimetz', 'timestamp', 'timestamptz', 'time', 'timetz',
+            'dateinterval', 'interval', 'year', 'uuid', 'guid', 'ulid', 'enum', 'set' => TypeScriptType::STRING,
+            // Number types
+            'int', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint', 'int2', 'int4', 'int8',
+            'float', 'double', 'decimal', 'numeric', 'real', 'float4', 'float8', 'money' => TypeScriptType::NUMBER,
+            // Boolean types
+            'bool', 'boolean' => TypeScriptType::BOOLEAN,
             default => TypeScriptType::ANY,
         };
     }

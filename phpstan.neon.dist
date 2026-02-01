@@ -1,5 +1,5 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
 
@@ -10,7 +10,6 @@ parameters:
     level: 5
 
     ignoreErrors:
+        - '#Class Laravel\\Fortify\\Rules\\Password not found#'
 
     excludePaths:
-
-    checkMissingIterableValueType: false
